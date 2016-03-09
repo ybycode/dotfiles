@@ -1,3 +1,5 @@
 [user]
 	email = ybycode@gmail.com
 	name = Yann B.
+[push]
+	default = simple

@@ -1,0 +1,15 @@
+/*
+!.config
+
+.config/*
+!.config/i3
+!.config/nvim
+
+!.gitignore
+!.gitconfig
+
+!.gtkrc-2.0
+!.i3status.conf
+!.Xresources
+!.zshrc
+

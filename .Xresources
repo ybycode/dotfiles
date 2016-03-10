@@ -15,6 +15,7 @@ Xft.hintstyle:              hintslight
 ! http://pod.tst.eu/http://cvs.schmorp.de/rxvt-unicode/doc/rxvt.1.pod
 !-------------------------------------------------------------------------------
 
+URxvt.intensityStyles:      false
 URxvt.depth:                32
 URxvt.geometry:             90x30
 URxvt.transparent:          false
@@ -23,7 +24,7 @@ URxvt.fading:               0
 ! URxvt.visualBell:           true
 URxvt.loginShell:           true
 URxvt.saveLines:            50
-URxvt.internalBorder:       3
+URxvt.internalBorder:       20
 URxvt.lineSpace:            0
 
 ! Fonts

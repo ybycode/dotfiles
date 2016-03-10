@@ -69,8 +69,15 @@ set wildignore=*.swp,*.bak,*.pyc
 set background=dark
 "colorscheme wombat " distinguished, molokai, solarized
 "colorscheme seoul256
-let g:solarized_termcolors=256
+
+" specifics for solarized (https://bbs.archlinux.org/viewtopic.php?id=164108):
+"let g:solarized_termcolors=256
+set nocompatible
+set t_Co=16
+set background=dark " dark | light "
 colorscheme solarized
+" end specifics
+
 
 " Mappings {{{
 let mapleader = "\<Space>"

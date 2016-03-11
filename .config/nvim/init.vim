@@ -8,6 +8,9 @@ Plug 'altercation/vim-colors-solarized'
 
 Plug 'junegunn/goyo.vim'
 
+" Syntaxic coloration for TypeScript:
+Plug 'leafgarland/typescript-vim'
+
 
 " Add plugins to &runtimepath
 call plug#end()

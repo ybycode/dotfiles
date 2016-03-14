@@ -181,9 +181,8 @@ bar {
 
 #exec feh --bg-scale ~/.config/images/IMG_20160116_135037.jpg
 
-exec pa-applet
 exec nm-applet
 exec --no-startup-id unclutter
 exec --no-startup-id blueman-applet
-exec --no-startup-id xsetroot -solid "8"
-exec --no-startup-id xautolock -time 1 -locker 'i3lock -c 111111'
+exec --no-startup-id xsetroot -solid "#002b36"
+exec --no-startup-id xautolock -time 3 -locker 'i3lock -c 111111'

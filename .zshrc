@@ -9,7 +9,7 @@ source $ZSH/oh-my-zsh.sh
 #export GTK2_RC_FILES=/usr/share/themes/Arc/gtk-2.0/gtkrc
 
 # to manage ssh-agent (needs keychain to be installed):
-#eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
+eval $(keychain --eval --agents ssh -Q --quiet yann)
 
 export PATH="~/.gem/ruby/2.1.0/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl"
 

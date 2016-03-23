@@ -17,3 +17,7 @@ export EDITOR='vim'
 
 # Force tmux to assume the terminal supports 256 colours:
 alias tmux="tmux -2"
+
+# avoid "Error opening terminal: rxvt-unicode" on remote servers:
+# see (https://forums.gentoo.org/viewtopic-t-733895-start-0.html)
+alias ssh="TERM=linux ssh"

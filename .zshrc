@@ -8,6 +8,10 @@ source $ZSH/oh-my-zsh.sh
 # to manage ssh-agent (needs keychain to be installed):
 eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
 
+# RUST properties
+export RUST_SRC_PATH=/mnt/data/code/rust-src/src
+export PATH=$PATH:~/.cargo/bin
+
 # GOLANG settings:
 export GOPATH=$HOME/code/go
 export GOBIN=$GOPATH/bin

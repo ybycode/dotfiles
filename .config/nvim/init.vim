@@ -1,15 +1,26 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree'
+Plug 'kien/ctrlp.vim'
+
 
 " Theme plugins:
 Plug 'junegunn/seoul256.vim'
 Plug 'altercation/vim-colors-solarized'
 
+" Plugin to remove distraction when editing:
 Plug 'junegunn/goyo.vim'
 
 " Syntaxic coloration for TypeScript:
 Plug 'leafgarland/typescript-vim'
+
+" completion:
+Plug 'shougo/deoplete.nvim'
+
+" Rust main plugin
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+
 
 
 " Add plugins to &runtimepath
@@ -106,5 +117,24 @@ vnoremap <C-K> xkP`[V`]
 vnoremap <C-J> xp`[V`]
 vnoremap <C-L> >
 vnoremap <C-H> <gv
+" remove highlight of search when asked:
+nnoremap <silent> <leader>n :nohlsearch<CR>
 
 nnoremap <silent><leader>a :NERDTreeToggle<CR>
+
+" Ctrl-p plugin:
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>f :CtrlPCurWD<CR>
+nnoremap <leader>F :CtrlPMixed<CR>
+nnoremap <leader>m :CtrlPMRUFiles<CR>
+
+" Deoplete plugin for autocompletion:
+let g:deoplete#enable_at_startup = 1
+
+" options for vim-racer:
+let g:racer_cmd = "racer"
+let $RUST_SRC_PATH="/mnt/data/code/rust-src/src/"
+" for the racer autocompletion to work with deoplete, I had to copy
+" this racer.py file (https://github.com/racer-rust/vim-racer/tree/master/rplugin/python3/deoplete/sources) here:
+" mv racer.py ~/.vim/plugged/deoplete.nvim/rplugin/python3/deoplete/sources/
+

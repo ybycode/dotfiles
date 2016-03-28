@@ -9,7 +9,7 @@ source $ZSH/oh-my-zsh.sh
 eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
 
 # RUST properties
-export RUST_SRC_PATH=/mnt/data/code/rust-src/src
+export RUST_SRC_PATH=$HOME/code/rust-src/src
 export PATH=$PATH:~/.cargo/bin
 
 # GOLANG settings:

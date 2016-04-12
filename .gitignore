@@ -5,15 +5,13 @@
 !.bashrc
 
 !.config
-!.vim
-
 .config/*
 !.config/i3
 !.config/nvim
 
+!.vim
 .vim/*
 !.vim/autoload
-!.vim/autoload/plug.vim
 
 !.gitignore
 !.gitconfig
@@ -25,3 +23,4 @@
 !.Xresources
 !.zshrc
 
+*~

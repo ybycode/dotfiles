@@ -17,11 +17,27 @@ Plug 'leafgarland/typescript-vim'
 " completion:
 Plug 'shougo/deoplete.nvim'
 
-" Rust main plugin
+" Elixir plugin
+Plug 'elixir-lang/vim-elixir'
+
+" Elm plugin
+Plug 'lambdatoast/elm.vim'
+
+" Rust plugins
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 
+" Neomake, kind of new syntastic:
+Plug 'benekastah/neomake'
 
+" Vim-gitgutter, shows a git diff in the gutter:
+Plug 'airblade/vim-gitgutter'
+
+" vim-airline, a status bar:
+Plug 'vim-airline/vim-airline'
+
+" ListToggle, to easily toggle the quickfix or location window:
+Plug 'Valloric/ListToggle'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -47,14 +63,15 @@ set smartcase                   " take case into account some capital letters ar
 set incsearch                   " show search matches as you type
 highlight ColorColumn ctermbg=magenta      "  highlight the 81th
 call matchadd('ColorColumn', '\%81v', 100) "  character if any
+"set backupcopy=yes
 set nobackup
 set noswapfile
 set mouse=a 	                " enable the mouse
 " wrap settings (cf. http://vim.wikia.com/wiki/Word_wrap_without_line_breaks)
-"set wrap                        " visually wrap
-"set linebreak                   " only break a character in the breakat option
-"set nolist                      " nolist disables linebreak
-"set whichwrap+=<,>,h,l,[,]      " causes the left and right arrow keys, as well as h and l,
+set wrap                        " visually wrap
+set linebreak                   " only break a character in the breakat option
+set nolist                      " nolist disables linebreak
+set whichwrap+=<,>,h,l,[,]      " causes the left and right arrow keys, as well as h and l,
                                 " to wrap when used at beginning or end of lines
 set encoding=utf-8              " The encoding displayed.
 set fileencoding=utf-8          " The encoding written to file.
@@ -134,7 +151,35 @@ let g:deoplete#enable_at_startup = 1
 " options for vim-racer:
 let g:racer_cmd = "racer"
 let $RUST_SRC_PATH="/mnt/data/code/rust-src/src/"
+"
+"let g:gitgutter_sign_removed_first_line = "^_"
+
 " for the racer autocompletion to work with deoplete, I had to copy
 " this racer.py file (https://github.com/racer-rust/vim-racer/tree/master/rplugin/python3/deoplete/sources) here:
 " mv racer.py ~/.vim/plugged/deoplete.nvim/rplugin/python3/deoplete/sources/
 
+augroup options
+    autocmd!
+    " remove trailing spaces on save:
+    autocmd BufWritePre * :%s/\s\+$//e
+augroup END
+
+"
+" Neomake options:
+"
+let g:neomake_logfile="/home/yann/neomake.log"
+" open the location list when neomake is run:
+"let g:neomake_open_list = 2
+let g:neomake_javascript_enabled_makers = ['eslint']
+
+augroup plugins_autocmds
+    autocmd!
+    autocmd! BufWritePost,BufEnter * Neomake
+augroup END
+
+"
+" ListToggle bindings:
+"
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+"let g:lt_height = 10 " number of lines of the window

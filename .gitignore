@@ -1,4 +1,4 @@
-/*
+*
 
 !.bash_logout
 !.bash_prompt
@@ -12,6 +12,9 @@
 !.vim
 .vim/*
 !.vim/autoload
+
+!.scripts
+!.scripts/video-mode-toggle.sh
 
 !.gitignore
 !.gitconfig

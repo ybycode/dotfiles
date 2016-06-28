@@ -6,7 +6,7 @@ EXTERNAL="HDMI1"
 connecteOutputs=$(xrandr | grep -E " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
 
 if [ `echo $connecteOutputs | wc -w` -le 1 ]; then
-    echo "The screen $EXTERNAL doesn't seem to be connected, leaving."
+    xrandr --output $INTERNAL --auto --output $EXTERNAL --off
     exit 0
 fi
 
@@ -21,18 +21,19 @@ if [ "$nbActives" -eq 1 ]; then
     if [ "$activeOutputs" == "$INTERNAL" ]; then
         # active both, make the internal primary, place the external right of the external
         xrandr --output $INTERNAL --auto --primary --output $EXTERNAL --auto --right-of $INTERNAL
+        exit 0
     elif [ "$activeOutputs" == "$EXTERNAL" ]; then
         # active internal
         xrandr --output $INTERNAL --auto --output $EXTERNAL --off
+        exit 0
     else
-        echo "The active input ($activeOutputs) is neither $INTERNAL or $EXTERNAL. There's a configuration problem. Leaving."
+        echo "The active input ($activeOutputs) is neither $INTERNAL or $EXTERNAL. There's a configuration problem. Leaving." >> errr.log
         exit 1
     fi
 elif [ "$nbActives" -eq 2 ]; then
     # active the external:
     xrandr --output $INTERNAL --off --output $EXTERNAL --auto
 else
-    echo $nbActives
-    echo "More than 2 monitors active. The script can't manage, leaving."
-    exit 0
+    echo "More than 2 monitors active. The script can't manage, leaving." >> errr.log
+    exit 1
 fi

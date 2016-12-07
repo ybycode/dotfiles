@@ -39,4 +39,5 @@ unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # Android
-export ANDROID_HOME=~/Android/Sdk
+export ANDROID_HOME=$HOME/Android/Sdk
+#export PATH="$HOME/Android/Sdk/tools:$HOME/Android/Sdk/platform-tools:${PATH}"

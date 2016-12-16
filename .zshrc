@@ -1,10 +1,3 @@
-# zsh install
-export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="avit"
-plugins=(git)
-source $ZSH/oh-my-zsh.sh
-# zsh install end
-
 # to manage ssh-agent (needs keychain to be installed):
 eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
 
@@ -21,8 +14,6 @@ export PATH=$PATH:$GOBIN
 
 # For ruby gems:
 export PATH=$PATH:~/.gem/ruby/2.3.0/bin
-
-export EDITOR='vim'
 
 # Force tmux to assume the terminal supports 256 colours:
 alias tmux="tmux -2"

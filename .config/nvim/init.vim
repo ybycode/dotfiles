@@ -171,6 +171,9 @@ let g:neomake_logfile="/home/yann/neomake.log"
 " open the location list when neomake is run:
 "let g:neomake_open_list = 2
 let g:neomake_javascript_enabled_makers = ['eslint']
+" for c++11:
+let g:neomake_cpp_enabled_makers=['clang']
+let g:neomake_cpp_clang_args = ["-std=c++11"]
 
 augroup plugins_autocmds
     autocmd!

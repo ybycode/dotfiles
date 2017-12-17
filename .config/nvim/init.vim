@@ -3,6 +3,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'kien/ctrlp.vim'
 
+" silver searcher plugin
+Plug 'rking/ag.vim'
 
 " Theme plugins:
 Plug 'junegunn/seoul256.vim'
@@ -11,11 +13,14 @@ Plug 'altercation/vim-colors-solarized'
 " Plugin to remove distraction when editing:
 Plug 'junegunn/goyo.vim'
 
-" Syntaxic coloration for TypeScript:
-Plug 'leafgarland/typescript-vim'
+" to center the view:
+Plug 'mikewest/vimroom'
 
 " completion:
 Plug 'shougo/deoplete.nvim'
+
+" jedi-vim for python auto-completion:
+Plug 'davidhalter/jedi-vim'
 
 " Elixir plugin
 Plug 'elixir-lang/vim-elixir'
@@ -27,11 +32,23 @@ Plug 'lambdatoast/elm.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 
+" plugin for javascript indentation and highlighting
+Plug 'pangloss/vim-javascript'
+
+" Syntax highlighting for vue files
+Plug 'posva/vim-vue'
+
+" Syntax highlighting for pug files (ex jade files)
+Plug 'digitaltoad/vim-pug'
+
 " Neomake, kind of new syntastic:
 Plug 'benekastah/neomake'
 
 " Vim-gitgutter, shows a git diff in the gutter:
 Plug 'airblade/vim-gitgutter'
+
+" Fugitive, git wrapper:
+Plug 'tpope/vim-fugitive'
 
 " vim-airline, a status bar:
 Plug 'vim-airline/vim-airline'
@@ -65,6 +82,7 @@ highlight ColorColumn ctermbg=magenta      "  highlight the 81th
 call matchadd('ColorColumn', '\%81v', 100) "  character if any
 "set backupcopy=yes
 set nobackup
+set nowritebackup
 set noswapfile
 set mouse=a 	                " enable the mouse
 " wrap settings (cf. http://vim.wikia.com/wiki/Word_wrap_without_line_breaks)
@@ -97,7 +115,6 @@ set undoreload=10000        " number of lines to save for undo
 set wildignore=*.swp,*.bak,*.pyc
 
 
-set background=dark
 "colorscheme wombat " distinguished, molokai, solarized
 "colorscheme seoul256
 
@@ -124,6 +141,8 @@ noremap <C-h> <C-W>h
 noremap <C-j> <C-W>j
 noremap <C-k> <C-W>k
 noremap <C-l> <C-W>l
+" map esc to exit the terminal insert mode:
+:tnoremap <Esc> <C-\><C-n>
 " remove highlight of search when asked:
 nnoremap <silent> <leader>n :nohlsearch<CR>
 " Do not exit visual mode when shifting:
@@ -145,6 +164,9 @@ nnoremap <leader>f :CtrlPCurWD<CR>
 nnoremap <leader>F :CtrlPMixed<CR>
 nnoremap <leader>m :CtrlPMRUFiles<CR>
 
+" VimRoom toggle with:
+nnoremap <leader>r :VimroomToggle<CR>
+
 " Deoplete plugin for autocompletion:
 let g:deoplete#enable_at_startup = 1
 
@@ -162,6 +184,8 @@ augroup options
     autocmd!
     " remove trailing spaces on save:
     autocmd BufWritePre * :%s/\s\+$//e
+    autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+    autocmd FileType vue setlocal shiftwidth=2 tabstop=2
 augroup END
 
 "
@@ -175,10 +199,10 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_cpp_enabled_makers=['clang']
 let g:neomake_cpp_clang_args = ["-std=c++11"]
 
-augroup plugins_autocmds
-    autocmd!
-    autocmd! BufWritePost,BufEnter * Neomake
-augroup END
+"augroup plugins_autocmds
+"    autocmd!
+"    autocmd! BufWritePost,BufEnter * Neomake
+"augroup END
 
 "
 " ListToggle bindings:
@@ -186,3 +210,8 @@ augroup END
 let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 "let g:lt_height = 10 " number of lines of the window
+
+" VimRoom settings:
+let g:vimroom_sidebar_height = 0
+let g:vimroom_width = 100
+let g:vimroom_scrolloff = 0

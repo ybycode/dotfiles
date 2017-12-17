@@ -19,8 +19,8 @@ nbActives=`echo $activeOutputs | wc -w`
 
 if [ "$nbActives" -eq 1 ]; then
     if [ "$activeOutputs" == "$INTERNAL" ]; then
-        # active both, make the internal primary, place the external right of the external
-        xrandr --output $INTERNAL --auto --primary --output $EXTERNAL --auto --right-of $INTERNAL
+        # active both, make the internal primary, place the external left of the external
+        xrandr --output $INTERNAL --auto --primary --output $EXTERNAL --auto --left-of $INTERNAL
         exit 0
     elif [ "$activeOutputs" == "$EXTERNAL" ]; then
         # active internal

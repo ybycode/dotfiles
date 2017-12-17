@@ -1,6 +1,8 @@
 # to manage ssh-agent (needs keychain to be installed):
 eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
 
+source $ZSH/oh-my-zsh.sh
+
 export PATH=$PATH:~/code/docker/bin
 
 # RUST properties

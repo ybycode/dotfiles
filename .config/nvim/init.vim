@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree'
 Plug 'kien/ctrlp.vim'
+Plug 'mbbill/undotree'
 
 " silver searcher plugin
 Plug 'rking/ag.vim'
@@ -32,8 +33,17 @@ Plug 'lambdatoast/elm.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 
+" Go plugin
+Plug 'tweekmonster/gofmt.vim'
+
+" reasonml plugin
+Plug 'reasonml-editor/vim-reason-plus'
+
 " plugin for javascript indentation and highlighting
 Plug 'pangloss/vim-javascript'
+
+" TypeScript syntax highlighting plugin:
+Plug 'leafgarland/typescript-vim'
 
 " Syntax highlighting for vue files
 Plug 'posva/vim-vue'
@@ -66,8 +76,8 @@ filetype on
 syntax enable
 set title                      "set the filename on the terminal title
 set expandtab
-set shiftwidth=4
-set softtabstop=4
+set shiftwidth=2
+set softtabstop=2
 set smartindent
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
 set number                      " show the line numbers
@@ -180,10 +190,19 @@ let $RUST_SRC_PATH="/mnt/data/code/rust-src/src/"
 " this racer.py file (https://github.com/racer-rust/vim-racer/tree/master/rplugin/python3/deoplete/sources) here:
 " mv racer.py ~/.vim/plugged/deoplete.nvim/rplugin/python3/deoplete/sources/
 
+fun! StripTrailingWhitespace()
+    " Don't strip on these filetypes
+    if &ft =~ 'diff' " 'ruby\|javascript\|perl'
+        return
+    endif
+    %s/\s\+$//e
+endfun
+
 augroup options
     autocmd!
     " remove trailing spaces on save:
-    autocmd BufWritePre * :%s/\s\+$//e
+    autocmd BufWritePre * call StripTrailingWhitespace()
+
     autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
     autocmd FileType vue setlocal shiftwidth=2 tabstop=2
 augroup END
@@ -215,3 +234,6 @@ let g:lt_quickfix_list_toggle_map = '<leader>q'
 let g:vimroom_sidebar_height = 0
 let g:vimroom_width = 100
 let g:vimroom_scrolloff = 0
+
+" gofmt settings:
+let g:gofmt_exe = 'goimports'

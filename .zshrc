@@ -17,6 +17,8 @@ alias tmux="tmux -2"
 # use Neovim instead of vim:
 alias vim="nvim"
 
+export EDITOR="nvim"
+
 # avoid "Error opening terminal: rxvt-unicode" on remote servers:
 # see (https://forums.gentoo.org/viewtopic-t-733895-start-0.html)
 alias ssh="TERM=linux ssh"

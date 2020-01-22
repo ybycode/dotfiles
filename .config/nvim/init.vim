@@ -20,11 +20,16 @@ Plug 'mikewest/vimroom'
 " completion:
 Plug 'shougo/deoplete.nvim'
 
-" jedi-vim for python auto-completion:
-Plug 'davidhalter/jedi-vim'
-
 " Elixir plugin
 Plug 'elixir-lang/vim-elixir'
+
+" Elixir formatter plugin
+Plug 'mhinz/vim-mix-format'
+
+" Javascript and co. formatter
+" (requires prettier to be available somewhere)
+Plug 'prettier/vim-prettier', {
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue'] }
 
 " Elm plugin
 Plug 'lambdatoast/elm.vim'
@@ -186,10 +191,6 @@ let $RUST_SRC_PATH="/mnt/data/code/rust-src/src/"
 "
 "let g:gitgutter_sign_removed_first_line = "^_"
 
-" for the racer autocompletion to work with deoplete, I had to copy
-" this racer.py file (https://github.com/racer-rust/vim-racer/tree/master/rplugin/python3/deoplete/sources) here:
-" mv racer.py ~/.vim/plugged/deoplete.nvim/rplugin/python3/deoplete/sources/
-
 fun! StripTrailingWhitespace()
     " Don't strip on these filetypes
     if &ft =~ 'diff' " 'ruby\|javascript\|perl'
@@ -237,3 +238,13 @@ let g:vimroom_scrolloff = 0
 
 " gofmt settings:
 let g:gofmt_exe = 'goimports'
+
+" Format elxir files on save:
+let g:mix_format_on_save = 1
+
+" Run prettier for JS files and co. on save:
+" when running at every change you may want to disable quickfix
+let g:prettier#quickfix_enabled = 0
+
+" let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue, PrettierAsync

@@ -1,5 +1,9 @@
 # to manage ssh-agent (needs keychain to be installed):
-eval $(keychain --eval --agents ssh -Q --quiet ~/.ssh/id_rsa)
+# eval $(keychain --eval --agents ssh -Q --quiet ~/.ssh/id_rsa)
+
+# to use gpg-agent in place of ssh-agent:
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
 
 source $ZSH/oh-my-zsh.sh
 

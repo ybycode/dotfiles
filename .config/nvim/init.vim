@@ -10,6 +10,11 @@ Plug 'rking/ag.vim'
 " Theme plugins:
 Plug 'junegunn/seoul256.vim'
 Plug 'altercation/vim-colors-solarized'
+Plug 'arcticicestudio/nord-vim'
+Plug 'sainnhe/sonokai'
+Plug 'jacoborus/tender.vim'
+Plug 'morhetz/gruvbox'
+Plug 'ayu-theme/ayu-vim'
 
 " Plugin to remove distraction when editing:
 Plug 'junegunn/goyo.vim'
@@ -17,11 +22,10 @@ Plug 'junegunn/goyo.vim'
 " to center the view:
 Plug 'mikewest/vimroom'
 
-" completion:
-Plug 'shougo/deoplete.nvim'
+"  syntax highlighting:
+Plug 'sheerun/vim-polyglot' " covers most languages at once
 
-" Elixir plugin
-Plug 'elixir-lang/vim-elixir'
+Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 
 " Elixir formatter plugin
 Plug 'mhinz/vim-mix-format'
@@ -31,45 +35,27 @@ Plug 'mhinz/vim-mix-format'
 Plug 'prettier/vim-prettier', {
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue'] }
 
-" Elm plugin
-Plug 'lambdatoast/elm.vim'
-
-" Rust plugins
-Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
+" Plug 'racer-rust/vim-racer'
 
 " Go plugin
 Plug 'tweekmonster/gofmt.vim'
-
-" reasonml plugin
-Plug 'reasonml-editor/vim-reason-plus'
-
-" plugin for javascript indentation and highlighting
-Plug 'pangloss/vim-javascript'
-
-" TypeScript syntax highlighting plugin:
-Plug 'leafgarland/typescript-vim'
-
-" Syntax highlighting for vue files
-Plug 'posva/vim-vue'
-
-" Syntax highlighting for pug files (ex jade files)
-Plug 'digitaltoad/vim-pug'
-
-" Neomake, kind of new syntastic:
-Plug 'benekastah/neomake'
 
 " Vim-gitgutter, shows a git diff in the gutter:
 Plug 'airblade/vim-gitgutter'
 
 " Fugitive, git wrapper:
 Plug 'tpope/vim-fugitive'
+" another tool for git:
+Plug 'jreybert/vimagit'
 
 " vim-airline, a status bar:
 Plug 'vim-airline/vim-airline'
 
 " ListToggle, to easily toggle the quickfix or location window:
 Plug 'Valloric/ListToggle'
+
+" Conquer of completion:
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -93,8 +79,15 @@ set hlsearch                    " highlight search terms
 set ignorecase                  " case insensitive search
 set smartcase                   " take case into account some capital letters are given
 set incsearch                   " show search matches as you type
-highlight ColorColumn ctermbg=magenta      "  highlight the 81th
-call matchadd('ColorColumn', '\%81v', 100) "  character if any
+" something to do with the background color of the terminal over the one
+" provided by the vim theme:
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
+
+" highlight the 81th character if any:
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
 "set backupcopy=yes
 set nobackup
 set nowritebackup
@@ -130,16 +123,53 @@ set undoreload=10000        " number of lines to save for undo
 set wildignore=*.swp,*.bak,*.pyc
 
 
-"colorscheme wombat " distinguished, molokai, solarized
-"colorscheme seoul256
+" CoC ("conquer of completion") configuration:
+let g:coc_global_extensions = ['coc-tsserver']
+let g:coc_global_extensions = ['coc-svelte']
+let g:coc_global_extensions = ['coc-vetur']
 
-" specifics for solarized (https://bbs.archlinux.org/viewtopic.php?id=164108):
-"let g:solarized_termcolors=256
+" <recommended options for CoC>
+set cmdheight=2 " Give more space for displaying messages.
+set updatetime=300
+set shortmess+=c " Don't pass messages to |ins-completion-menu|.
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+" </recommended options for CoC>
+
+
 set nocompatible
-set t_Co=16
-set background=dark " dark | light "
-colorscheme solarized
-" end specifics
+set t_Co=256
+" set t_Co=16
+set background=dark " dark | light
+
+" " Light themes:
+" let g:solarized_termcolors=256
+" colorscheme solarized
+
+" " Dark themes:
+" colorscheme solarized
+" colorscheme seoul256
+" colorscheme nord
+" colorscheme tender
+
+let g:sonokai_style = 'default' " default | atlantis | andromeda | shusia | maia
+let g:sonokai_enable_italic = 1
+let g:sonokai_disable_italic_comment = 1
+colorscheme sonokai
+
+" set termguicolors     " enable true colors support
+" " let ayucolor="light"  " for light version of theme
+" let ayucolor="mirage" " for mirage version of theme
+" " let ayucolor="dark"   " for dark version of theme
+" colorscheme ayu
+
+" autocmd vimenter * ++nested colorscheme gruvbox
 
 
 " Mappings {{{
@@ -168,8 +198,6 @@ vnoremap <C-K> xkP`[V`]
 vnoremap <C-J> xp`[V`]
 vnoremap <C-L> >
 vnoremap <C-H> <gv
-" remove highlight of search when asked:
-nnoremap <silent> <leader>n :nohlsearch<CR>
 
 nnoremap <silent><leader>a :NERDTreeToggle<CR>
 
@@ -178,6 +206,9 @@ nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>f :CtrlPCurWD<CR>
 nnoremap <leader>F :CtrlPMixed<CR>
 nnoremap <leader>m :CtrlPMRUFiles<CR>
+
+" CoC diagnostic:
+nnoremap <leader>d :CocDiagnostics<CR>
 
 " VimRoom toggle with:
 nnoremap <leader>r :VimroomToggle<CR>
@@ -192,10 +223,6 @@ let $RUST_SRC_PATH="/mnt/data/code/rust-src/src/"
 "let g:gitgutter_sign_removed_first_line = "^_"
 
 fun! StripTrailingWhitespace()
-    " Don't strip on these filetypes
-    if &ft =~ 'diff' " 'ruby\|javascript\|perl'
-        return
-    endif
     %s/\s\+$//e
 endfun
 
@@ -218,11 +245,6 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 " for c++11:
 let g:neomake_cpp_enabled_makers=['clang']
 let g:neomake_cpp_clang_args = ["-std=c++11"]
-
-"augroup plugins_autocmds
-"    autocmd!
-"    autocmd! BufWritePost,BufEnter * Neomake
-"augroup END
 
 "
 " ListToggle bindings:

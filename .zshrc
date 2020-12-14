@@ -7,13 +7,7 @@ gpgconf --launch gpg-agent
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH=$PATH:~/code/docker/bin
-
-# RUST properties
-export RUST_SRC_PATH=$HOME/code/rust-src/src
-export PATH=$PATH:~/.cargo/bin
-
-export PATH=$PATH:~/go/bin
+plugins=(pass)
 
 # Force tmux to assume the terminal supports 256 colours:
 alias tmux="tmux -2"
@@ -31,17 +25,11 @@ alias ssh="TERM=linux ssh"
 unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
-# Android
-export ANDROID_HOME=$HOME/Android/Sdk
-#export PATH="$HOME/Android/Sdk/tools:$HOME/Android/Sdk/platform-tools:${PATH}"
-
 # autocompletion for kubectl:
 source <(kubectl completion zsh)
 # also aliased as 'k':
 alias k=kubectl
 source <(kubectl completion zsh | sed 's/kubectl/k/g')
-
-export PATH=$PATH:$HOME/.yarn/bin
 
 function _cd_save_cwd () {
   # runs the cd command and saves the resulting CWD in a file.
@@ -64,3 +52,10 @@ alias cd="_cd_save_cwd"
 
 # cd to the last visited directory if its address was saved:
 cd_last_dir
+
+export PATH="$HOME/.yarn/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+
+# https://direnv.net
+# eval "$(direnv hook zsh)"

@@ -4,10 +4,10 @@
 !.bash_prompt
 !.bashrc
 
-!.config
 .config/*
 !.config/i3
 !.config/nvim
+!.config/dunst
 
 !.vim
 .vim/*

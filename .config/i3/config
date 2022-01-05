@@ -208,6 +208,8 @@ bar {
 }
 
 exec --no-startup-id nm-applet
+# udiskie manages the auto mount USB devices. -s is to have a smart tray icon
+exec --no-startup-id udiskie -s -f thunar
 # -noevent because it otherwise unclutter prevents the normal change of focus
 # (see https://github.com/i3/i3/issues/3506):
 exec --no-startup-id unclutter -noevents

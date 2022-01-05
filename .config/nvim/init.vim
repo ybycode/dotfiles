@@ -15,6 +15,8 @@ Plug 'sainnhe/sonokai'
 Plug 'jacoborus/tender.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ayu-theme/ayu-vim'
+" a collection of themes
+Plug 'rafi/awesome-vim-colorschemes'
 
 " Plugin to remove distraction when editing:
 Plug 'junegunn/goyo.vim'
@@ -23,19 +25,24 @@ Plug 'junegunn/goyo.vim'
 Plug 'mikewest/vimroom'
 
 "  syntax highlighting:
+" do not fancy print CSV files:
+let g:polyglot_disabled = ['csv.plugin']
 Plug 'sheerun/vim-polyglot' " covers most languages at once
+" official plugin for rescript:
+Plug 'rescript-lang/vim-rescript'
 
 Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 
 " Elixir formatter plugin
 Plug 'mhinz/vim-mix-format'
 
+" Rust
+Plug 'rust-lang/rust.vim'
+
 " Javascript and co. formatter
 " (requires prettier to be available somewhere)
 Plug 'prettier/vim-prettier', {
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue'] }
-
-" Plug 'racer-rust/vim-racer'
 
 " Go plugin
 Plug 'tweekmonster/gofmt.vim'
@@ -148,25 +155,28 @@ set t_Co=256
 " set t_Co=16
 set background=dark " dark | light
 
-" " Light themes:
+" Light themes:
 " let g:solarized_termcolors=256
 " colorscheme solarized
+" colorscheme github
+" colorscheme PaperColor
+" colorscheme one
 
 " " Dark themes:
 " colorscheme solarized
 " colorscheme seoul256
 " colorscheme nord
-" colorscheme tender
+colorscheme tender
 
-let g:sonokai_style = 'default' " default | atlantis | andromeda | shusia | maia
-let g:sonokai_enable_italic = 1
-let g:sonokai_disable_italic_comment = 1
-colorscheme sonokai
+" let g:sonokai_style = 'default' " default | atlantis | andromeda | shusia | maia
+" let g:sonokai_enable_italic = 1
+" let g:sonokai_disable_italic_comment = 1
+" colorscheme sonokai
 
 " set termguicolors     " enable true colors support
-" " let ayucolor="light"  " for light version of theme
-" let ayucolor="mirage" " for mirage version of theme
-" " let ayucolor="dark"   " for dark version of theme
+" " " let ayucolor="light"  " for light version of theme
+" " let ayucolor="light" " for mirage version of theme
+" let ayucolor="dark"   " for dark version of theme
 " colorscheme ayu
 
 " autocmd vimenter * ++nested colorscheme gruvbox
@@ -216,10 +226,6 @@ nnoremap <leader>r :VimroomToggle<CR>
 " Deoplete plugin for autocompletion:
 let g:deoplete#enable_at_startup = 1
 
-" options for vim-racer:
-let g:racer_cmd = "racer"
-let $RUST_SRC_PATH="/mnt/data/code/rust-src/src/"
-"
 "let g:gitgutter_sign_removed_first_line = "^_"
 
 fun! StripTrailingWhitespace()
@@ -233,6 +239,12 @@ augroup options
 
     autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
     autocmd FileType vue setlocal shiftwidth=2 tabstop=2
+augroup END
+
+augroup ReactFiletypes
+  autocmd!
+  autocmd BufRead,BufNewFile *.jsx set filetype=javascriptreact
+  autocmd BufRead,BufNewFile *.tsx set filetype=typescriptreact
 augroup END
 
 "
@@ -261,12 +273,14 @@ let g:vimroom_scrolloff = 0
 " gofmt settings:
 let g:gofmt_exe = 'goimports'
 
-" Format elxir files on save:
+" Format elixir files on save:
 let g:mix_format_on_save = 1
+" same with rust:
+let g:rustfmt_autosave = 1
 
 " Run prettier for JS files and co. on save:
 " when running at every change you may want to disable quickfix
 let g:prettier#quickfix_enabled = 0
 
 " let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue, PrettierAsync
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.module.scss,*.json,*.graphql,*.vue, PrettierAsync

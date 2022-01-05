@@ -12,10 +12,11 @@ plugins=(pass)
 # Force tmux to assume the terminal supports 256 colours:
 alias tmux="tmux -2"
 
+export EDITOR="nvim"
 # use Neovim instead of vim:
 alias vim="nvim"
-
-export EDITOR="nvim"
+# use sops with a barebone nvim to avoid leaks through undos:
+alias sops="EDITOR='nvim -u NONE' && sops"
 
 # avoid "Error opening terminal: rxvt-unicode" on remote servers:
 # see (https://forums.gentoo.org/viewtopic-t-733895-start-0.html)
@@ -50,12 +51,15 @@ function cd_last_dir () {
 
 alias cd="_cd_save_cwd"
 
-# cd to the last visited directory if its address was saved:
-cd_last_dir
-
 export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 
+# pass (https://www.passwordstore.org/) is used as the backend for aws-vault:
+export AWS_VAULT_BACKEND=pass
+
 # https://direnv.net
 # eval "$(direnv hook zsh)"
+
+# cd to the last visited directory if its address was saved:
+cd_last_dir

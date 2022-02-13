@@ -28,6 +28,7 @@ Plug 'mikewest/vimroom'
 " do not fancy print CSV files:
 let g:polyglot_disabled = ['csv.plugin']
 Plug 'sheerun/vim-polyglot' " covers most languages at once
+
 " official plugin for rescript:
 Plug 'rescript-lang/vim-rescript'
 
@@ -42,7 +43,7 @@ Plug 'rust-lang/rust.vim'
 " Javascript and co. formatter
 " (requires prettier to be available somewhere)
 Plug 'prettier/vim-prettier', {
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue'] }
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'svelte'] }
 
 " Go plugin
 Plug 'tweekmonster/gofmt.vim'
@@ -63,6 +64,9 @@ Plug 'Valloric/ListToggle'
 
 " Conquer of completion:
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" to preview markdown files in the browser while editing them:
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -283,4 +287,4 @@ let g:rustfmt_autosave = 1
 let g:prettier#quickfix_enabled = 0
 
 " let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.module.scss,*.json,*.graphql,*.vue, PrettierAsync
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.module.scss,*.json,*.graphql,*.vue,*.svelte, PrettierAsync

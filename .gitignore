@@ -1,19 +1,23 @@
-*
+/*
 
 !.bash_logout
 !.bash_prompt
 !.bashrc
 
-.config/*
-!.config/i3
-!.config/nvim
-!.config/dunst
+!/.config
+/.config/*
+!/.config/i3
+!/.config/nvim
+/.config/nvim/autoload
+!/.config/dunst
+!/.config/kitty
 
 !.vim
 .vim/*
 !.vim/autoload
 
-!.scripts
+!/.scripts/
+/.scripts/*
 !.scripts/video-mode-toggle.sh
 
 !.gitignore
@@ -25,5 +29,3 @@
 !.vimrc
 !.Xresources
 !.zshrc
-
-*~

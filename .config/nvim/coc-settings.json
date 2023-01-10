@@ -1,5 +1,4 @@
 {
-  "vetur.trace.server": "verbose",
   "languageserver": {
     "rescript": {
       "enable": true,

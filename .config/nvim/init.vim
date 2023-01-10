@@ -33,6 +33,8 @@ Plug 'sheerun/vim-polyglot' " covers most languages at once
 Plug 'rescript-lang/vim-rescript'
 
 Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
+" "Fast Vue Language Support":
+" Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
 
 " Elixir formatter plugin
 Plug 'mhinz/vim-mix-format'
@@ -135,9 +137,10 @@ set wildignore=*.swp,*.bak,*.pyc
 
 
 " CoC ("conquer of completion") configuration:
-let g:coc_global_extensions = ['coc-tsserver']
-let g:coc_global_extensions = ['coc-svelte']
-let g:coc_global_extensions = ['coc-vetur']
+" let g:coc_global_extensions = ['coc-tsserver']
+" let g:coc_global_extensions = ['coc-svelte']
+" let g:coc_global_extensions = ['coc-volar']
+" let g:coc_global_extensions = ['coc-vetur']
 
 " <recommended options for CoC>
 set cmdheight=2 " Give more space for displaying messages.

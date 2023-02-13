@@ -28,9 +28,8 @@ alias hearts="echo :green_heart: :blue_heart: :purple_heart: :yellow_heart: :hea
 # alias k=kubectl
 # source <(kubectl completion zsh | sed 's/kubectl/k/g')
 
-export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.scripts:$PATH"
 
 # pass (https://www.passwordstore.org/) is used as the backend for aws-vault:
 export AWS_VAULT_BACKEND=pass

@@ -19,6 +19,7 @@
 !/.scripts/
 /.scripts/*
 !.scripts/video-mode-toggle.sh
+!.scripts/vpn_switch
 
 !.gitignore
 !.gitconfig

@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+  >&2 echo "USAGE: $0 list"
+  >&2 echo "USAGE: $0 VPN_NAME"
+  >&2 echo "Use - (dash) to stop all VPN connections."
+  >&2 echo "Missing argument VPN_NAME. Exiting."
+  exit 1
+fi
+
+param="$1"
+
+nmcli_list_vpns() {
+  nmcli connection show \
+    | grep -E '(vpn|wireguard)' \
+    | awk '{ print $1 }' \
+    | sort
+}
+
+nmcli_active_vpn_connections() {
+  nmcli connection show --active \
+    | grep -E '(vpn|wireguard)' \
+    | awk '{ print $1 }'
+}
+
+nmcli_up() {
+  nmcli conn up "$1"
+}
+
+nmcli_down() {
+  nmcli conn down "$1"
+}
+
+activate() {
+  # echo -n "Activating $1... "
+  # nmcli conn up "$1" > /dev/null
+  # printf_checkmark
+  action "Activating $1" nmcli_up "$1"
+
+  for vpn in $(nmcli_active_vpn_connections); do
+    if [ "$vpn" != "$1" ]; then
+      deactivate "$vpn"
+    fi
+  done
+  # nmcli_active_vpn_connections
+  echo done.
+}
+
+deactivate() {
+  action "Deactivating $1" nmcli_down "$1"
+}
+
+deactivate_all() {
+  for conn in $(nmcli_active_vpn_connections); do
+    deactivate "$conn"
+  done
+}
+
+
+#
+# Helper functions
+#
+
+action() {
+  echo -n "$1..."
+  shift
+  $@ > /dev/null
+  printf_checkmark
+}
+
+printf_checkmark() {
+  printf '\u2714\n'
+}
+
+#
+# Main menu
+#
+
+case $param in
+list)
+nmcli_list_vpns
+;;
+
+-)
+deactivate_all
+;;
+
+*)
+activate "$param"
+esac
+
+# if [ "$vpn_name" = "-" ]; then
+#   deactivate_all
+# else
+#   activate "$vpn_name"
+# fi
+

@@ -39,8 +39,9 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 # switch from internal screen -> both screens -> external screen
 bindsym XF86Display exec --no-startup-id ~/.scripts/video-mode-toggle.sh
-# run peek, the animated GIF recorder, with the Print key:
-bindsym Print exec --no-startup-id peek
+bindsym --release Print exec --no-startup-id import ~/screenshot.jpg
+# peek, the animated GIF recorder:
+bindsym Shift+Print exec --no-startup-id peek
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -184,10 +185,10 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
-bindsym Shift+XF86MonBrightnessUp exec xbacklight -inc 1 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
-bindsym Shift+XF86MonBrightnessDown exec xbacklight -dec 1 # decrease screen brightness
+bindsym XF86MonBrightnessUp         exec xbacklight -inc 10 -time 1 # increase screen brightness
+bindsym XF86MonBrightnessDown       exec xbacklight -dec 10 -time 1 # decrease screen brightness
+bindsym shift+XF86MonBrightnessUp   exec xbacklight -inc 1  -time 1 # small increase
+bindsym shift+XF86MonBrightnessDown exec xbacklight -dec 1  -time 1 # small decrease
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

@@ -13,6 +13,11 @@ alias tmux="tmux -2"
 export EDITOR="nvim"
 # use Neovim instead of vim:
 alias vim="nvim"
+
+# rsync options for local, fast copy. Coming from
+# https://superuser.com/a/1361692:
+alias rsync_local="rsync -avAXEWSlHh --no-compress --info=progress2"
+
 # use sops with a barebone nvim to avoid leaks through undos:
 alias sops="EDITOR='nvim -u NONE' && sops"
 

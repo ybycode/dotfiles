@@ -132,18 +132,11 @@ require('lazy').setup({
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-
-      -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
     },
   },
 
@@ -208,6 +201,29 @@ require('lazy').setup({
         component_separators = '|',
         section_separators = '',
       },
+      sections = {
+        lualine_c = {
+          {
+            'filename',
+            file_status = true,      -- Displays file status (readonly status, modified status)
+            newfile_status = false,  -- Display new file status (new file means no write after created)
+            path = 1,                -- 0: Just the filename
+                                     -- 1: Relative path
+                                     -- 2: Absolute path
+                                     -- 3: Absolute path, with tilde as the home directory
+                                     -- 4: Filename and parent dir, with tilde as the home directory
+
+            shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
+                                     -- for other components. (terrible name, any suggestions?)
+            symbols = {
+              modified = '[+]',      -- Text to show when the file is modified.
+              readonly = '[-]',      -- Text to show when the file is non-modifiable or readonly.
+              unnamed = '[No Name]', -- Text to show for unnamed buffers.
+              newfile = '[New]',     -- Text to show for newly created file before first write
+            },
+          },
+        },
+      },
     },
   },
 
@@ -244,7 +260,21 @@ require('lazy').setup({
     },
   },
 
-  { 'kien/ctrlp.vim' },
+  {
+    -- to easily switch to recently used files
+    'kien/ctrlp.vim',
+    init = function()
+      if vim.fn.executable('rg') == 1 then
+        vim.o.grepprg = 'rg --vimgrep'
+        vim.g.ctrlp_user_command = "rg %s --files --color=never --glob \"\""
+        vim.g.ctrlp_use_caching = 0
+      end
+    end,
+    keys = {
+      { "<leader>f", "<cmd>CtrlPCurWD<cr>", desc = "CWD files" },
+      { "<leader>m", "<cmd>CtrlPMRUFiles<cr>", desc = "Most recent used files" },
+    },
+  },
 
   {
     -- Highlight, edit, and navigate code
@@ -254,6 +284,24 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
+
+  {
+    -- Elixir formatter plugin
+    'mhinz/vim-mix-format',
+    init = function()
+      vim.g.mix_format_on_save = 1
+    end,
+  },
+
+  -- {
+  --   -- Javascript and co. formatter
+  --   -- (requires prettier to be available somewhere)
+  --   'prettier/vim-prettier',
+  --   opts = {
+  --     for = { 'javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'svelte', }
+  --   },
+  -- },
+
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -312,6 +360,12 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+-- wrap settings (cf. http://vim.wikia.com/wiki/Word_wrap_without_line_breaks)
+vim.o.wrap=true                  -- visually wrap
+vim.o.linebreak=true             -- only break a character in the breakat option
+vim.o.nolist=true                -- nolist disables linebreak
+vim.o.whichwrap="<,>,h,l,[,]"  -- causes the left and right arrow keys, as well as h and l,
+                                 -- to wrap when used at beginning or end of lines
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -339,9 +393,21 @@ vim.keymap.set('n', '<C-h>', '<C-W>h', { noremap = true })
 vim.keymap.set('n', '<C-j>', '<C-W>j', { noremap = true })
 vim.keymap.set('n', '<C-k>', '<C-W>k', { noremap = true })
 vim.keymap.set('n', '<C-l>', '<C-W>l', { noremap = true })
+-- use leader w for saving:
+vim.keymap.set('n', '<leader>w', ':update<CR>', { noremap = true })
 -- remove highlight of search when asked:
 -- nnoremap <silent> <leader>n :nohlsearch<CR>
-vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', { noremap = true, silent = true})
+vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', { noremap = true, silent = true, desc = "Stop search highlight"})
+
+-- toggle the location and quickfix lists:
+vim.api.nvim_set_keymap('n', '<leader>l', ':LocationListToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>q', ':QuickfixListToggle<CR>', { noremap = true, silent = true })
+
+-- remove trailing spaces on save:
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  command = [[%s/\s\+$//e]],
+})
 
 
 -- [[ Highlight on yank ]]
@@ -365,6 +431,11 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+  },
+  pickers = {
+    find_files = {
+      theme = "ivy",
+    }
   },
 }
 
@@ -433,7 +504,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'elixir', 'heex', 'eex', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'cpp', 'elixir', 'heex', 'eex', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'vue', 'pug' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -573,7 +644,7 @@ require('which-key').register {
 --   -- rust_analyzer = {},
 --   -- tsserver = {},
 --   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
--- 
+--
 --   lua_ls = {
 --     Lua = {
 --       workspace = { checkThirdParty = false },
@@ -583,21 +654,21 @@ require('which-key').register {
 --     },
 --   },
 -- }
--- 
+--
 -- -- Setup neovim lua configuration
 -- require('neodev').setup()
--- 
+--
 -- -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
--- 
+--
 -- -- Ensure the servers above are installed
 -- local mason_lspconfig = require 'mason-lspconfig'
--- 
+--
 -- mason_lspconfig.setup {
 --   ensure_installed = vim.tbl_keys(servers),
 -- }
--- 
+--
 -- mason_lspconfig.setup_handlers {
 --   function(server_name)
 --     require('lspconfig')[server_name].setup {
@@ -633,27 +704,27 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 end
-require('lspconfig').elixirls.setup({
-  cmd = { "elixir-ls" },
-  on_attach = on_attach
-
-})
-
+-- require('lspconfig').elixirls.setup({
+--   cmd = { "elixir-ls" },
+--   on_attach = on_attach
+--
+-- })
+require('lspconfig').tsserver.setup({})
 
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-require('luasnip.loaders.from_vscode').lazy_load()
-luasnip.config.setup {}
+-- local luasnip = require 'luasnip'
+-- require('luasnip.loaders.from_vscode').lazy_load()
+-- luasnip.config.setup {}
 
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
+  -- snippet = {
+  --   expand = function(args)
+  --     luasnip.lsp_expand(args.body)
+  --   end,
+  -- },
   completion = {
     completeopt = 'menu,menuone,noinsert'
   },
@@ -670,8 +741,8 @@ cmp.setup {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
+      -- elseif luasnip.expand_or_locally_jumpable() then
+      --   luasnip.expand_or_jump()
       else
         fallback()
       end
@@ -679,8 +750,8 @@ cmp.setup {
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
+      -- elseif luasnip.locally_jumpable(-1) then
+      --   luasnip.jump(-1)
       else
         fallback()
       end
@@ -688,7 +759,7 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+    -- { name = 'luasnip' },
     { name = 'buffer' },
   },
 }

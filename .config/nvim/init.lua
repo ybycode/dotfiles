@@ -1,6 +1,8 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.nvim_lsp_log_level = 'debug'
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -43,10 +45,21 @@ vim.o.smartcase = true
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
 
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeoutlen = 300
+-- -- Decrease update time
+-- vim.o.updatetime = 250
+-- vim.o.timeoutlen = 300
 
+vim.o.expandtab = true
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.smartindent = true
+vim.o.incsearch = true            -- show search matches as you type
+
+-- wrap settings (cf. http://vim.wikia.com/wiki/Word_wrap_without_line_breaks)
+vim.o.linebreak = true -- only break a character in the breakat option
+vim.o.nolist = true -- nolist disables linebreak
+vim.o.whichwrap = 'b,s,<,>,h,l,[,]' -- causes the left and right arrow keys, as well as h and l,
+                                    -- to wrap when used at beginning or end of lines
 require("config.lazy")
 require("config.keymaps")
 require("config.autocommands")

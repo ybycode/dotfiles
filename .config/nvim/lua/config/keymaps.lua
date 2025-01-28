@@ -15,11 +15,14 @@ vim.keymap.set('n', '<C-l>', '<C-W>l', { noremap = true })
 vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', { noremap = true, silent = true})
 
 local telescope_builtin = require('telescope.builtin')
+
 vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', telescope_builtin.buffers, {})
+-- vim.keymap.set('n', '<leader>fb', telescope_builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', telescope_builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fw', telescope_builtin.grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>fd', telescope_builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+-- vim.keymap.set('n', '<leader>fd', telescope_builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>fr', telescope_builtin.resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>f.', telescope_builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+-- for the Most Recent Used files (what ctrl-p was providing):
+local telescope_extensions = require('telescope').extensions
+vim.keymap.set('n', '<leader>m', telescope_extensions.recent_files.pick, {})

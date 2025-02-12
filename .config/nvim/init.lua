@@ -57,7 +57,7 @@ vim.o.incsearch = true            -- show search matches as you type
 
 -- wrap settings (cf. http://vim.wikia.com/wiki/Word_wrap_without_line_breaks)
 vim.o.linebreak = true -- only break a character in the breakat option
-vim.o.nolist = true -- nolist disables linebreak
+-- vim.o.nolist = true -- nolist disables linebreak
 vim.o.whichwrap = 'b,s,<,>,h,l,[,]' -- causes the left and right arrow keys, as well as h and l,
                                     -- to wrap when used at beginning or end of lines
 require("config.lazy")

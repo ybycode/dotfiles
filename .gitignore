@@ -11,6 +11,8 @@
 /.config/nvim/autoload
 !/.config/dunst
 !/.config/kitty
+!/.config/sway
+!/.config/waybar
 
 !.vim
 .vim/*

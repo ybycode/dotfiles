@@ -26,8 +26,15 @@ output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_19
 
 output * scale 1
 
-output DP-2 pos 0,0 res 1920x1080
-output eDP-1 pos 0,1080 res 1920x1080
+# Screens information: use `wlr-randr` to get info, or `wdisplays` (GUI) to setup by hand.
+# laptop screen:
+output eDP-1 pos 0 1080
+# other screen, to sit above the laptop screen:
+## on x1carbon gen12:
+output HDMI-A-1 pos 0 0
+## on T480:
+output DP-1 pos 0 0
+output DP-2 pos 0 0
 
 # Example configuration:
 #
@@ -43,6 +50,9 @@ exec swayidle -w \
          timeout 300 'swaylock -f -c 000000' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
+
+exec_always nm-applet --indicator
+
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -234,9 +244,12 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked Shift+XF86MonBrightnessDown exec brightnessctl set 1%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-    # Special key to take a screenshot with grim
-    bindsym Print exec grim
+    bindsym --locked Shift+XF86MonBrightnessUp exec brightnessctl set 1%+
+    # for screenshots, the screenshot-region script defined in the nix config is used:
+    bindsym Print exec screenshot-region
+    bindsym Shift+Print exec toggle-screencast-region
 
 #
 # Status Bar:

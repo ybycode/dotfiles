@@ -65,7 +65,23 @@ return {
         --     documentFormattingProvider = false,
         --   },
         -- },
-        -- biome = true,
+
+        -- new kid on the block for typescript:
+        vtsls = true,
+        volar = {
+          cmd = { "vue-language-server", "--stdio" },
+          filetypes = { "vue" },
+          init_options = {
+            -- typescript = {
+            --   tsdk = require("lspconfig.util").get_typescript_server_path() -- Auto-detect TS lib
+            -- },
+            vue = {
+              hybridMode = false, -- Better for Vue 3
+            },
+          },
+        },
+
+        biome = true,
 
         -- jsonls = {
         --   settings = {
@@ -166,6 +182,38 @@ return {
       local disable_semantic_tokens = {
         lua = true,
       }
+
+      -- Auto-populate location list with diagnostics
+      vim.api.nvim_create_autocmd("DiagnosticChanged", {
+        callback = function()
+          -- Only update if diagnostics exist for the current buffer
+          if #vim.diagnostic.get(0) > 0 then
+            -- Save current window and cursor position
+            local current_win = vim.api.nvim_get_current_win()
+            local cursor_pos = vim.api.nvim_win_get_cursor(current_win)
+
+
+            vim.diagnostic.setloclist({ open = true })  -- Populate with auto-opening
+
+            -- Restore focus and cursor position
+            vim.api.nvim_set_current_win(current_win)
+            vim.api.nvim_win_set_cursor(current_win, cursor_pos)
+          else
+            -- Clear location list when no diagnostics exist
+            vim.fn.setloclist(0, {}, 'f')
+          end
+        end,
+      })
+
+      vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+          -- This will populate the location list with diagnostics
+          update_in_insert = false,
+          virtual_text = true,
+          signs = true,
+          underline = true,
+        }
+      )
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)

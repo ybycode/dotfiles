@@ -265,6 +265,13 @@ return {
           heex = { "mix" },
           surface = { "mix" },
         },
+        formatters = {
+          mix = {
+            command = "mix",
+            args = { "format", "$FILENAME" },
+            stdin = false,
+          },
+        },
       }
 
       vim.api.nvim_create_autocmd("BufWritePre", {
@@ -272,7 +279,8 @@ return {
           require("conform").format {
             bufnr = args.buf,
             lsp_fallback = true,
-            quiet = true,
+            quiet = false,
+            timeout_ms = 5000, -- the mix formatter takes more than 1000ms
           }
         end,
       })
